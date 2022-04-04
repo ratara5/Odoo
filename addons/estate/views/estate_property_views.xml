@@ -83,21 +83,26 @@
         <field name="model">estate.property</field>
         <field name="arch" type="xml">
             <!--architecture-->
-            <kanban default_group_by="property_type_id" records_draggable=False>
+            <kanban default_group_by="property_type_id">
+                <field name="name"/>
+                <field name="expected_price"/>
+                <field name="state"/>
+                <field name="best_offer"/>
+                <field name="selling_price"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click">
                             <field name="name"/>
                             <field name="expected_price"/>                            
-                            <div t-if="state=='oferec'">
+                            <div t-if="record.state.raw_value=='oferec'">
                                 <p>The best offer is:</p>
                                 <field name="best_offer"/>
                             </div>                            
-                            <div t-if="state=='ofeacc'">
+                            <div t-if="record.state.raw_value==='ofeacc'">
                                 <p>The selling price was:</p>
                                 <field name="selling_price"/>
                             </div>
-                            <div t-if="state=='new'">
+                            <div t-if="record.state.raw_value==='new'">
                                 This property is NEW!
                             </div>                            
                         </div>
