@@ -1,0 +1,17 @@
+<odoo>
+    <record id="view_users_form_inherit" model="ir.ui.view">
+        <field name="name">res.users.form.inherit</field>
+        <field name="model">res.users</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+                <!--find field description and add the field
+                new_field after it (Is This in view tree?)-->
+            <xpath expr="//notebook" position="inside">  
+                <page string="Real Estate Advertisements">
+                    <field name="property_ids"/>                    
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
