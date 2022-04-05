@@ -86,7 +86,7 @@ class Property(models.Model):
 
     def sold(self):
         for record in self:
-            if record.state!='canceled':
+            if record.state!='canceled' and record.offer_ids:
                 record.state='sold'
             else:
                 raise UserError('Canceled properties cannot be sold')

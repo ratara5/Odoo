@@ -172,7 +172,7 @@
                             <page string="Offers">
                             <!--SPRINNLES(E)-->
                                 <group>
-                                    <field name="offer_ids" attrs="{'readonly':[('state','!=','new'),('state','!=','offerec')]}"/>
+                                    <field name="offer_ids" attrs="{'readonly':[('state','not in',('new','offerec','sold'))]}"/> <!--don't create offer for a new, offerec or sold property-->
                                 </group>
                             </page>
 
