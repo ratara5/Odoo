@@ -1,5 +1,5 @@
 id,name
-property_type_residential,Residential
-property_type_commercial,Commercial
-property_type_industrial,Industrial
-property_type_land,Land
+property_residential,Residential
+property_commercial,Commercial
+property_industrial,Industrial
+property_land,Land

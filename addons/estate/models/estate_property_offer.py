@@ -1,78 +1,98 @@
+# -*- coding: utf-8 -*-
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
+from odoo.tools import float_compare
 
-class PropertyOffer(models.Model):
+
+class EstatePropertyOffer(models.Model):
+
+    # ---------------------------------------- Private Attributes ---------------------------------
+
     _name = "estate.property.offer"
-    _description = "Property Offer"
-    _order="price desc" #SPRINKLES: List order
-
-    price=fields.Float()
-    status=fields.Selection(selection=[('accepted','Accepted'),('refused','Refused')])
-    partner_id = fields.Many2one('res.partner', required=True) #this is in estate_property.py too
-    
-
-
-    validity=fields.Integer(default=7)
-    date_deadline=fields.Date(compute="_compute_deadline", inverse="_inverse_deadline")
-
-    property_id = fields.Many2one('estate.property', required=True)
-
-    #SPRINKLES:Stat buttons
-    property_type_id=fields.Many2one(related="property_id.property_type_id", store=True)
-
-    #CONSTRAINS
+    _description = "Real Estate Property Offer"
+    _order = "price desc"
     _sql_constraints = [
-        ('price', 'CHECK(price > 0)',
-         'The price must be strictly positive.'),
+        ("check_price", "CHECK(price > 0)", "The price must be strictly positive"),
     ]
 
-    #COMPUTED FIELDS AND ONCHANGE
-    @api.depends("validity","create_date")
-    def _compute_deadline(self):
-        for record in self:
-            if record.create_date: 
-                record.date_deadline=record.create_date+relativedelta(days=record.validity)
-            else:
-                record.date_deadline=fields.Datetime.today()+relativedelta(days=record.validity)
+    # --------------------------------------- Fields Declaration ----------------------------------
 
-    def _inverse_deadline(self):
-        for record in self:
-            validity=record.date_deadline-record.create_date.date()
-            record.validity=validity.days
+    # Basic
+    price = fields.Float("Price", required=True)
+    validity = fields.Integer(string="Validity (days)", default=7)
 
+    # Special
+    state = fields.Selection(
+        selection=[
+            ("accepted", "Accepted"),
+            ("refused", "Refused"),
+        ],
+        string="Status",
+        copy=False,
+        default=False,
+    )
 
-    #SOME ACTION
-    def accepted(self):
-        for record in self:
-            if record.property_id.offer_ids.filtered(lambda r: r.status=='accepted'):
-                raise UserError('This property already has an accepted offer')
-            record.status='accepted'
-            record.property_id.write({
-                'selling_price':record.price,
-                'partner_id':record.partner_id.id,
-                'state':'ofeacc'
-            })
-        
-    def refused(self):
-        for record in self:
-            record.status='refused'
+    # Relational
+    partner_id = fields.Many2one("res.partner", string="Partner", required=True)
+    property_id = fields.Many2one("estate.property", string="Property", required=True)
+    # For stat button:
+    property_type_id = fields.Many2one(
+        "estate.property.type", related="property_id.property_type_id", string="Property Type", store=True
+    )
 
-    #INHERIT:
+    # Computed
+    date_deadline = fields.Date(string="Deadline", compute="_compute_date_deadline", inverse="_inverse_date_deadline")
+
+    # ---------------------------------------- Compute methods ------------------------------------
+
+    @api.depends("create_date", "validity")
+    def _compute_date_deadline(self):
+        for offer in self:
+            date = offer.create_date.date() if offer.create_date else fields.Date.today()
+            offer.date_deadline = date + relativedelta(days=offer.validity)
+
+    def _inverse_date_deadline(self):
+        for offer in self:
+            date = offer.create_date.date() if offer.create_date else fields.Date.today()
+            offer.validity = (offer.date_deadline - date).days
+
+    # ------------------------------------------ CRUD Methods -------------------------------------
+
     @api.model
     def create(self, vals):
-        offers=self.search([('property_id','=',vals['property_id'])]) #offers que existan
-        if not offers:
-            property=self.env['estate.property'].browse(vals['property_id'])
-            property.write({
-                'state':'oferec'
-            })
-        else:
-            if vals['price']<max(offers.mapped('price')):
-                raise UserError('offer price must be a upper or equal amount than an existing max offer')
-        return super().create(vals) 
-    
+        if vals.get("property_id") and vals.get("price"):
+            prop = self.env["estate.property"].browse(vals["property_id"])
+            # We check if the offer is higher than the existing offers
+            if prop.offer_ids:
+                max_offer = max(prop.mapped("offer_ids.price"))
+                if float_compare(vals["price"], max_offer, precision_rounding=0.01) <= 0:
+                    raise UserError("The offer must be higher than %.2f" % max_offer)
+            prop.state = "offer_received"
+        return super().create(vals)
 
+    # ---------------------------------------- Action Methods -------------------------------------
 
-    
+    def action_accept(self):
+        if "accepted" in self.mapped("property_id.offer_ids.state"):
+            raise UserError("An offer as already been accepted.")
+        self.write(
+            {
+                "state": "accepted",
+            }
+        )
+        return self.mapped("property_id").write(
+            {
+                "state": "offer_accepted",
+                "selling_price": self.price,
+                "buyer_id": self.partner_id.id,
+            }
+        )
+
+    def action_refuse(self):
+        return self.write(
+            {
+                "state": "refused",
+            }
+        )

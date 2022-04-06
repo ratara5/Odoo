@@ -1,16 +1,21 @@
+# -*- coding: utf-8 -*-
+
 from odoo import fields, models
 
-class PropertyTag(models.Model):
+
+class EstatePropertyType(models.Model):
+
+    # ---------------------------------------- Private Attributes ---------------------------------
+
     _name = "estate.property.tag"
-    _description = "Property Tag"
-    _order="name" #SPRINKLES: List order
-
-    name = fields.Char(required=True,help="""
-    Write a complete tag name""",string='Name')
-    color = fields.Integer()
-
-    #CONSTRAINS
+    _description = "Real Estate Property Tag"
+    _order = "name"
     _sql_constraints = [
-        ('tag', 'UNIQUE (name)',
-         'The tag must be unique.'),
+        ("check_name", "UNIQUE(name)", "The name must be unique"),
     ]
+
+    # --------------------------------------- Fields Declaration ----------------------------------
+
+    # Basic
+    name = fields.Char("Name", required=True)
+    color = fields.Integer("Color Index")

@@ -1,6 +1,18 @@
+# -*- coding: utf-8 -*-
+
 from odoo import fields, models
 
-class ResUser(models.Model):
-    _inherit='res.users'
 
-    property_ids= fields.One2many('estate.property','user_id', domain=[('state','in',('new','oferec'))])
+class ResUsers(models.Model):
+
+    # ---------------------------------------- Private Attributes ---------------------------------
+
+    _inherit = "res.users"
+
+    # --------------------------------------- Fields Declaration ----------------------------------
+
+    # Relational
+    # This domain gives the opportunity to mention the evaluated and non-evaluated domains
+    property_ids = fields.One2many(
+        "estate.property", "user_id", string="Properties", domain=[("state", "in", ["new", "offer_received"])]
+    )

@@ -1,19 +1,10 @@
+# -*- coding: utf-8 -*-
+
 {
-    'name': "Estate Account",
-    'version': '1.0',
-    'depends': ['base','estate','account'],
-    'author': "Author Name",
-    'category': 'Category',
-    'description': """
-    Account description text
-    """,
-    # data files always loaded at installation
-    'data': ['security/ir.model.access.csv'       
-        
+    "name": "Real Estate Accounting",
+    "depends": [
+        "estate",
+        "account",
     ],
-    # data files containing optionally loaded demonstration data
-    'demo': [
-        
-    ],
-    'auto_install':True
+    "auto_install": True,
 }
