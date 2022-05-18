@@ -17,16 +17,101 @@
         <field name="dpi">80</field>
     </record>
 
-    <!--action report-->
-    <record id="report_property_offers" model="ir.actions.report">
-        <field name="name">Report Property Offers</field>
+    <!--ACTION REPORTS-->
+    <!--action report property-->
+    <record id="action_report_property" model="ir.actions.report">
+        <field name="name">Report Property</field>
         <field name="model">estate.property</field>
         <field name="report_type">qweb-pdf</field>
-        <field name="report_name">estate.estate_property_offer_report_template_badge</field>
-        <field name="report_file">estate.estate_property_offer_report_template_badge</field>
-        <field name="print_report_name">'Property Offers'</field>
+        <field name="report_name">estate.report_property</field>
+        <field name="report_file">estate.report_property</field>
+        <field name="print_report_name">'Property Offers - %s' %(object.name)</field>
         <field name="paperformat_id" ref="estate.paperformat_euro_lowmargin"/>
         <field name="binding_model_id" ref="model_estate_property"/>
         <field name="binding_type">report</field>
     </record>
+
+    <!--action report salesman-->
+    <record id="action_report_salesman" model="ir.actions.report">
+        <field name="name">Salesman Properties n' its Offers</field>
+        <field name="model">res.users</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">estate.report_salesman</field>
+        <field name="report_file">estate.report_salesman</field>
+        <field name="print_report_name">'Salesman Properties and its Offers - %s' %(object.name)</field>
+        <field name="paperformat_id" ref="estate.paperformat_euro_lowmargin"/>
+        <field name="binding_model_id" ref="base.model_res_users"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!--DASHBOARD (ONLY ENTERPRISE)
+    <data>
+        <record id="estate_report_view_dashboard" model="ir.ui.view">
+            <field name="name">estate.property.dashboard</field>
+            <field name="model">estate.report</field>
+            <field name="arch" type="xml">
+                <dashboard>
+                    <group>
+                        <group>
+                            <agreggate name="num_rejections" string="Refused Offers" field="id" group_operator="count" domain="[('offer_state','='refused')]"/>
+                            <agreggate name="num_properties" string="Properties with Offers" field="property_id" group_operator="count_distinct"/>
+                            <agreggate name="total_sold" string="Properties Sold" field="property_id" group_operator="count_distinct" domain="[('property_state','=','sold')]" help="Total number of sold properties."/>
+                            <agreggate name="total_canceled" string="Properties Canceled" field="property_id" group_operator="count_distinct" domain="[('property_state','=','canceled')]" help="Total number of canceled properties."/>
+                            <formula name="avg_rejection_sold" string="Avg Refusals For Sold" value="record.num_rejections/record.total_sold" help="Average number of rejections for sold properties."/>
+                            <formula name="avg_rejection_cancel" string="Avg Refusals For Canceled" value="record.num_rejections/record.total_canceled" help="Average number of rejections for canceled properties."/>                            
+                        </group>
+                        <group col="10">
+                            <widget name="pie_chart" title="Offer Property Types" attrs="{'groupby':'property_type_id'}"/>
+                            <widget name="pie_chart" title="Rejected Offers" attrs="{'groupby':'property_type_id','domain':'[(\'offer_state\',\'=\',\'refused\')]'}"/>
+                        </group>
+                    </group>
+                </dashboard>
+            </field>
+        </record>-->
+
+        <!--VIEWS (?)
+        <record id="estate_report_view_tree" model="ir.ui.view">
+            <field name="name">estate.report.tree</field>
+            <field name="model">estate.report</field>
+            <field name="arch" type="xml">
+                <tree string="Properties Offers" decoration-success="offer_state == 'accepted'" decoration-muted="offer_state == 'refused'" decoration-bf="property_state == 'sold'">
+                    <field name="property_id"/>
+                    <field name="property_type_id"/>
+                    <field name="property_state"/>
+                    <field name="offer_state"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="estate_report_view_form" model="ir.ui.view">
+            <field name="name">estate.report.form</field>
+            <field name="model">estate.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                    <group>
+                        <field name="property_id"/>
+                        <field name="property_type_id"/>
+                        <field name="property_state"/>
+                        <field name="offer_state"/>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="estate_report_dashboard_action" model="ir.actions.act_window">
+            <field name="name">Offers Analysis</field>
+            <field name="res_model">estate.report</field>
+            <field name="view_mode">dashboard</field>
+            <field name="view_id" ref="estate_report_view_dashboard"/>
+        </record>
+        
+
+        <menuitem
+            id="estate_dashboard_menuitem"
+            name="Offers Analysis"
+            parent="menu_estate_report"
+            action="estate_report_dashboard_action"/>
+    </data>-->
 </odoo>

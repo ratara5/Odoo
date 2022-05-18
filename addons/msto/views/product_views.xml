@@ -1,0 +1,19 @@
+<odoo>
+    <record id="attribute_tree_view" model="ir.ui.view">
+        <field name="name">product.attribute.tree.inherit.msto</field>
+        <field name="model">product.attribute</field>
+        <field name="inherit_id" ref="product.attribute_tree_view"/>
+        <field name="arch" type="xml">
+                <xpath expr="field[@name='name']" position="after">
+                    <field name="attribute_line_ids">
+                        <!--<tree>
+                            <field name="name"/>
+                            <field name="html_color"/>
+                            <field name="is_custom"/>
+                        </tree>-->
+                    </field>                    
+                    <!--<field name="value_ids"></field>-->
+                </xpath>
+        </field>
+    </record>
+</odoo>

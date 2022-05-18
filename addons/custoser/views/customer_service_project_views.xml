@@ -1,0 +1,60 @@
+<odoo>
+
+    <!--PROJECT TREE VIEW-->
+    <record id="customer_service_project_tree_view" model="ir.ui.view">
+        <field name="name">customer.service.project.tree.view</field>
+        <field name="model">customer.service.project</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--PROJECT FORM VIEW-->
+    <record id="customer_service_project_form_view" model="ir.ui.view">
+        <field name="name">customer.service.project.form.view</field>
+        <field name="model">customer.service.project</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                </header>
+                <sheet>
+                <group>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                </group>
+                <notebook>
+                    <page>
+                        <group>
+                            <field name="service_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="planned_duration"/>
+                                    <field name="customer_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
+                </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+     <!--PROJECT ACTION VIEW-->
+    <record id="customer_service_project_action" model="ir.actions.act_window">
+        <field name="name">Projects</field>
+        <field name="res_model">customer.service.project</field>
+        <field name="view_mode"> tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smilling_face">
+                Create a property type
+            </p>
+        </field>
+    </record>
+
+</odoo>

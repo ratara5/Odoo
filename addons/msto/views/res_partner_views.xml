@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.msto</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <notebook position="inside">
+                <page name="other_info" string="Other Info">
+                    <label for="is_technical" class="oe_edit_only"/>
+                    <field name="is_technical"/>
+                </page>
+            </notebook>
+        </field>
+    </record>
+</odoo>

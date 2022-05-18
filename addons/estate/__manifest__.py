@@ -18,11 +18,12 @@
         "views/estate_menus.xml",
         "data/property_tag.xml",
         "data/estate.property.type.csv",
-        "data/estate_offer.xml",
+        "data/property_tag.xml",
         "data/estate_property.xml",
+        "data/estate_offer.xml",
+        "data/res_users.xml",
         "report/estate_property_templates.xml",
         "report/estate_property_reports.xml"
-
     ],
     
     "application": True,

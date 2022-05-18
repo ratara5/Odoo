@@ -1,0 +1,2 @@
+name,default_code,responsible_id,list_price,standard_price,categ_id,detailed_type,qty_available,virtual_available,uom_id,uom_po_id,barcode
+Cable UTP 5,CAB_001,,"$110,00","$90,00",All,Storable Product,"20.000,00","15.000,00",cm,Roll 250,12345678

@@ -1,0 +1,4 @@
+name,default_code,responsible_id,list_price,standard_price,categ_id,detailed_type,qty_available,virtual_available,uom_id,uom_po_id,barcode,attribute_id,attribute_line_ids
+Cable UTP 6e,CAB_003,,"$130,00","$110,00",All,Storable Product,"50.000,00","45.000,00",cm,Roll 250,98765432,TwoAttribute,"1V, 2V,3V,4V"
+Cable UTP 6,CAB_002,,"$125,00","$105,00",All,Storable Product,"60.000,00","50.000,00",cm,Roll 250,97865432,,
+,,,,,,,no pasa,no pasa,,,,,

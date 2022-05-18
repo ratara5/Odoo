@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="technical_1" model="res.users">
+            <!--ONLY REQUIRED FIELDS, ALL OTHERS COMMENT--> <!--LOAD IN MANIFEST!!-->
+            <!--<field name="action_id"></field> comment:fields.Many2one('ir.actions.actions')-->
+            <field name="is_technical">True</field>
+            <field name="partner_id" ref="base.res_partner_12"></field><!--TODO: current company-->
+            <!--<field name="active_partner"></field>-->
+            <field name="login">tech1</field>
+            <!--<field name="password"></field> comment:Empty if you don't want the user to be able to connect?-->
+            <field name="new_password">tech1</field> <!--Is it only possible change the pass in the server? Or set 'password' initially above-->
+            <!--<field name="signature"></field> comment:fields.Htlm-->
+            <!--<field name="lang"></field>-->
+            <!--<field name="loging_date"></field>-->
+            <!--<field name="company_id" group="base.group_multi_company"></field> comment:default=lambda self: self.env.company.id-->
+            <!--<field name="groups_id"></field> comment:default=_default_groups-->
+            <!--<field name="log_ids"></field>-->
+            <!--<field name="share"></field> comment:fields.Boolean(help="User created only for the purpose of sharing data"-->
+        
+            <!--overridden inherited fields to bypass access rights, in case you have access to the user but not its corresponding partner ALL COMMENTS:fields....(inherited=True-->
+            <field name="name">Technical 1</field> 
+            <field name="email">tech1</field>
+            <!--<field name="acesses_count"></field>
+            <field name="rules_count"></field>
+            <field name="groups_count"></field>-->
+        </record>
+    </data>
+</odoo>

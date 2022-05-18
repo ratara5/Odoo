@@ -1,0 +1,25 @@
+<odoo>
+    <!--TIMESHEET TREE VIEW-->
+    <record id="customer_service_timesheet_tree_view" model="ir.ui.view">
+        <field name="name">customer.service.timesheet.tree</field>
+        <field name="model">customer.service.timesheet</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="description"/>
+                <field name="duration" widget="float_time"/>
+                <button name="action_ok" type="object" title="OK" icon="fa-check" attrs="{'invisible': [('state', '!=', False)]}"/>
+                <button name="action_standby" type="object" title="STANDBY" icon="fa-exclamation" attrs="{'invisible': [('state', '!=', False)]}"/>
+                <field name="state" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--ACTION TIMESHEET VIEW-->
+    <record id="customer_service_timesheet_action" model="ir.actions.act_window">
+        <field name="name">Timesheets</field>
+        <field name="res_model">customer.service.timesheet</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>

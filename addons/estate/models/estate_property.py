@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
@@ -48,6 +49,8 @@ class EstateProperty(models.Model):
         ],
         string="Garden Orientation",
     )
+    # Add by server
+
 
     # Special
     state = fields.Selection(
@@ -126,11 +129,15 @@ class EstateProperty(models.Model):
     # ---------------------------------------- Action Methods -------------------------------------
 
     def action_sold(self):
+        if "accepted" not in self.mapped("offer_ids.state"):
+            raise UserError("Properties without an accepted offer cannot be sold.") #This doesn't appear, because already restrictions in xml exists: when property is sold, offers id changes to readonly
         if "canceled" in self.mapped("state"):
             raise UserError("Canceled properties cannot be sold.")
         return self.write({"state": "sold"})
 
     def action_cancel(self):
+        if "accepted" not in self.mapped("offer_ids.state"):
+            raise UserError("Properties without an accepted offer cannot be sold.") #This doesn't appear, because already restrictions in xml exists: when property is sold, offers id changes to read only
         if "sold" in self.mapped("state"):
             raise UserError("Sold properties cannot be canceled.")
         return self.write({"state": "canceled"})

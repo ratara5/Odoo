@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Odoo Attach",
+            "type": "python",
+            "request": "attach",
+            "port": 8069,
+            "debugServer":8888,
+            "host": "localhost",           
+            "pathMappings": [
+                {
+                    "localRoot": "./addons", //remove dot(?)
+                    "remoteRoot": "/mnt/extra_addons"
+                }
+            ],
+            "logToFile": true,
+            //"preLaunchTask": "init docker",
+            //"postDebugTask": "stop docker"
+        }
+    ]
+}

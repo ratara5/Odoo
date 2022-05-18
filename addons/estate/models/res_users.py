@@ -10,6 +10,8 @@ class ResUsers(models.Model):
     _inherit = "res.users"
 
     # --------------------------------------- Fields Declaration ----------------------------------
+    #Basic
+    is_technical=fields.Boolean(default=False)
 
     # Relational
     # This domain gives the opportunity to mention the evaluated and non-evaluated domains

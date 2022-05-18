@@ -4,6 +4,7 @@ services:
   odoo:
     image: odoo
     container_name: odoo
+    build: ./
     ports:
     - "8069:8069"
     environment:
@@ -14,6 +15,7 @@ services:
     - filestore:/var/lib/odoo
     - ./addons:/mnt/extra_addons
     - ./odoo.conf:/etc/odoo/odoo.conf
+    # entrypoint: "/usr/bin/odoo -c /etc/odoo/odoo.conf --dev all"
     command: odoo -u estate -d test
   db:
     image: postgres:13

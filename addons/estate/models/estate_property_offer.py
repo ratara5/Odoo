@@ -65,6 +65,8 @@ class EstatePropertyOffer(models.Model):
         if vals.get("property_id") and vals.get("price"):
             prop = self.env["estate.property"].browse(vals["property_id"])
             # We check if the offer is higher than the existing offers
+            if prop.state=="sold":
+                raise UserError("This property is already sold")
             if prop.offer_ids:
                 max_offer = max(prop.mapped("offer_ids.price"))
                 if float_compare(vals["price"], max_offer, precision_rounding=0.01) <= 0:

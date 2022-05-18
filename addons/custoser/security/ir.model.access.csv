@@ -1,0 +1,6 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+
+access_customer_service,access_customer_service,model_customer_service,base.group_user,1,1,1,1
+access_customer_service_project,access_customer_service_project,model_customer_service_project,base.group_user,1,1,1,1
+access_customer_service_timesheet,access_customer_service_timesheet,model_customer_service_timesheet,base.group_user,1,1,1,1
+access_customer_service_tag,access_customer_service_tag,model_customer_service_tag,base.group_user,1,1,1,1

@@ -1,0 +1,12 @@
+<odoo>
+    <menuitem id="customer_service_root" name="Customer Services">
+        <menuitem id="customer_service_first_level_1" name="Services" sequence="5">
+            <menuitem id="customer_service_menu_action" action="customer_service_action"  sequence="5"/>
+        </menuitem>
+        <menuitem id="customer_service_first_level_2" name="Others" sequence="15">
+            <menuitem id="customer_service_timesheet_menu_action" action="customer_service_timesheet_action"  sequence="5"/>
+            <menuitem id="customer_service_tag_menu_action" action="customer_service_tag_action"  sequence="10"/>
+            <menuitem id="customer_service_project_menu_action" action="customer_service_project_action"  sequence="15"/> <!--TODO: Show it-->
+        </menuitem>
+    </menuitem>
+</odoo>

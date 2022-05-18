@@ -1,0 +1,96 @@
+<odoo>
+
+    <!--MAIN TREE VIEW-->
+    <record id="customer_service_view_tree" model="ir.ui.view">
+        <field name="name">customer.service.tree</field>
+        <field name="model">customer.service</field>
+        <field name="arch" type="xml">
+            <tree string="Services">
+                <field name="name"/>
+                <field name="project_id"/>
+                <field name="description"/>
+                <field name="planned_date"/>
+                <field name="technical_id"/>
+                <field name="customer_id"/>
+                <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                <field name="state" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--MAIN FORM VIEW-->
+    <record id="customer_service_view_form" model="ir.ui.view">
+        <field name="name">customer.service.form</field>
+        <field name="model">customer.service</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_start" type="object" string="START" states="on_site" class="oe_highlight"/>
+                    <button name="action_stop" type="object" string="STOP" states="on_site"/>  <!--TODO: SHOW AND HIDE BUTTONS START, STOP, PAUSE, SIGN REPORT, INVOICE-->
+                    <field name="elapsed_time" widget="float_time" attrs="{'invisible': [('state', 'in', ('new','on_going'))]}"/> <!--PUT INTO -->
+                    <field name="state" widget="statusbar" statusbar_visible="new,on_going,on_site,done,outstandings"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id"/>
+                            <field name="technical_id"/>
+                            <field name="planned_date"/>
+                            <field name="planned_duration" widget="float_time"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </group>
+                        <group>
+                            <field name="customer_id"/>
+                            <field name="phone"/>
+
+                            <button name="action_onsite" type="object" string="ON SITE" states="new,on_going" class="oe_highlight"/>
+                        </group>
+                    </group>                    
+                    <notebook>
+                        <page string="Description">
+                            <group><group>
+                            <field name="description"/>
+                            </group></group>
+                        </page>
+                        <page string="TimeSheets">
+                            <field name="progress" widget="progressbar" options="{'current_value':'progress','max_value':'hours_spend','editable':false}"/> <!--TODO: forward-->
+                            <field name="timesheet_ids"/>
+                            <group><group><field name="hours_spend" widget="float_time"/></group></group> <!--TODO: below column 'duration' -->
+                            <group><group><field name="remaining_hours" widget="float_time"/></group></group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!--MAIN SEARCH VIEW-->
+    <record id="customer_service_search_view" model="ir.ui.view">
+        <field name="name">customer.service.search</field>
+        <field name="model">customer.service</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="project_id"/>
+                <field name="planned_date"/>
+                <field name="technical_id"/>
+                <field name="customer_id"/>
+                <filter string="Available" name="available" domain="[('state','=','new')]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Assigned To" name="technical_id" context="{'group_by':'technical_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--ACTION MAIN VIEW-->
+    <record id="customer_service_action" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">customer.service</field>
+        <field name="context">{'search_default_available': 1}</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+</odoo>
